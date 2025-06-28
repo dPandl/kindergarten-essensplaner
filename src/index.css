@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Optional: Grundlegender Font, falls nicht schon in App.jsx definiert */
+body {
+  font-family: 'Inter', sans-serif;
+}
