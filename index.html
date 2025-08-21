@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/kindergarten-essensplaner/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kindergarten Essensplaner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              'sans': ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            -webkit-print-color-adjust: exact; /* Forcing Chrome/Safari to print background colors and images */
+            color-adjust: exact; /* Standard property */
+        }
+
+        @media print {
+            html, body {
+                margin: 0 !important;
+                padding: 0 !important;
+                width: auto !important;
+                height: auto !important;
+                overflow: visible !important;
+            }
+
+            .normal-app-content {
+                display: none !important;
+            }
+
+            .print-mode-wrapper {
+                display: block !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                background-color: white !important;
+                box-shadow: none !important;
+                position: static !important;
+                z-index: 9999 !important;
+                overflow: visible !important;
+                font-family: system-ui, sans-serif !important;
+                font-size: 10pt !important;
+            }
+
+            .toast-message-container, .modal-overlay, .modal-content {
+                display: none !important;
+            }
+            
+            @page {
+                margin: 1cm !important;
+            }
+
+            .print-area {
+                width: 100% !important;
+                padding: 0 !important;
+                box-sizing: border-box !important;
+            }
+
+            .group-table-print {
+                page-break-inside: avoid !important;
+                page-break-after: always !important;
+                margin-bottom: 2cm !important;
+                border: 1px solid #ddd !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+            }
+            
+            .caterer-summary-print,
+            .child-orders-table,
+            .caterer-monthly-summary-table {
+                page-break-before: auto !important;
+                page-break-inside: avoid !important;
+                border: 1px solid #e5e7eb !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+                background-color: white !important;
+                margin-bottom: 1cm !important;
+            }
+            
+            .print-title {
+                text-align: center !important;
+                font-size: 20pt !important;
+                font-weight: bold !important;
+                margin-bottom: 1cm !important;
+                margin-top: 0 !important;
+                page-break-after: avoid !important;
+            }
+            
+            .print-title-weekly {
+                margin-top: 0.5cm !important;
+                margin-bottom: 0.5cm !important;
+                font-size: 16pt !important;
+            }
+
+            .print-table-wrapper {
+                overflow: visible !important;
+            }
+
+            .print-table-wrapper table {
+                width: 100% !important;
+                border-collapse: collapse !important;
+                border: none !important;
+                background-color: white !important;
+                table-layout: auto !important;
+            }
+
+            .print-table-wrapper th,
+            .print-table-wrapper td {
+                border: 1px solid #e5e7eb !important;
+                padding: 6px !important;
+                font-size: 8pt !important;
+                color: #333 !important;
+                vertical-align: middle !important;
+            }
+
+            .child-orders-table .print-table-wrapper th,
+            .child-orders-table .print-table-wrapper td {
+                padding: 2px 4px !important;
+                font-size: 7pt !important;
+                vertical-align: top !important;
+                white-space: normal !important;
+            }
+
+            .caterer-monthly-summary-table .print-table-wrapper th,
+            .caterer-monthly-summary-table .print-table-wrapper td {
+                padding: 2px 1px !important;
+                font-size: 6pt !important;
+                white-space: nowrap !important;
+            }
+    
+            .caterer-monthly-summary-table .print-table-wrapper th:first-child,
+            .caterer-monthly-summary-table .print-table-wrapper td:first-child {
+                white-space: normal !important;
+            }
+
+            .print-table-wrapper thead th {
+                text-align: center !important;
+                background-color: #f0f0f0 !important;
+                font-weight: bold !important;
+                color: #333 !important;
+                white-space: nowrap !important;
+            }
+            
+            .child-orders-table .print-table-wrapper thead th:first-child,
+            .child-orders-table .print-table-wrapper thead th:nth-child(2),
+            .group-table-print .print-table-wrapper thead th:first-child,
+            .caterer-monthly-summary-table .print-table-wrapper thead th:first-child {
+                text-align: left !important;
+            }
+
+            .print-table-wrapper tbody td {
+                text-align: center !important;
+            }
+            .print-table-wrapper tbody td:first-child {
+                text-align: left !important;
+            }
+
+            .group-table-print .print-table-wrapper tr:nth-child(odd) td,
+            .child-orders-table .print-table-wrapper tr:nth-child(odd) td {
+                background-color: #f9f9f9 !important;
+            }
+             .group-table-print .print-table-wrapper tr:nth-child(even) td,
+             .child-orders-table .print-table-wrapper tr:nth-child(even) td {
+                background-color: white !important;
+            }
+
+            .print-table-wrapper .summary-row td {
+                background-color: #e6f7ff !important;
+                font-weight: bold !important;
+                color: #2563eb !important;
+            }
+            
+            td > div.is-abbestellt {
+                background-color: #fecaca !important;
+                color: #111 !important;
+                font-style: italic !important;
+            }
+
+            .print-area button, .print-area select, .print-area input, .print-area label[for*="file"], .print-area .flex-justify-end {
+                display: none !important;
+            }
+        }
+    </style>
+
+<link rel="stylesheet" href="/index.css">
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.1.1/",
+    "react": "https://esm.sh/react@^19.1.1",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.1/",
+    "path": "https://esm.sh/path@^0.12.7",
+    "vite": "https://esm.sh/vite@^7.1.3",
+    "url": "https://esm.sh/url@^0.11.4"
+  }
+}
+</script>
+  <script type="module" crossorigin src="/kindergarten-essensplaner/assets/index-Dsl_Qrh_.js"></script>
+</head>
+<body class="font-sans">
+    <div id="root"></div>
+</body>
+</html>
